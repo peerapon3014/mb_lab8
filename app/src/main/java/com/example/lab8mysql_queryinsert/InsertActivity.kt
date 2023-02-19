@@ -10,6 +10,8 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 class InsertActivity : AppCompatActivity() {
     private lateinit var bindingInsert : ActivityInsertBinding
+    var gender:String = ""
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         bindingInsert = ActivityInsertBinding.inflate(layoutInflater)
@@ -17,6 +19,8 @@ class InsertActivity : AppCompatActivity() {
 
         //add button
         bindingInsert.btnAdd.setOnClickListener{
+            var radioButtonChecked: RadioButton = findViewById(bindingInsert.radioGender.checkedRadioButtonId)
+            gender = radioButtonChecked.text as String
             addEmployee()
         }
         //reset button
@@ -67,7 +71,7 @@ class InsertActivity : AppCompatActivity() {
         api.insertEmp(
             bindingInsert.edtName.text.toString(),
             bindingInsert.edtEmail.text.toString(),
-            bindingInsert.radioGender.checkedRadioButtonId.toString(),
+            gender,
             bindingInsert.edtSalary.text.toString().toInt()
         ).enqueue(object : Callback<Employee>{
             override fun onResponse(
